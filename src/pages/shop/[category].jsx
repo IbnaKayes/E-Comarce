@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -7,37 +6,44 @@ import Footer from '../../components/Footer';
 export default function CategoryPage() {
   const router = useRouter();
   const { category } = router.query;
-
   const [selectedSub, setSelectedSub] = useState('All');
-  const subCategories = ['All', 'Gym Accessories', 'Kitchen Accessories', 'Electric Accessories'];
+
+  // Bellroy-style exact product layout
+  const products = [
+    { id: 1, name: 'Laneway Tote 15L', price: '$129', tag: '15L / A versatile, everyday tote with essential organization', colors: ['#4A3B32', '#2D3748', '#715364', '#C5A087'] },
+    { id: 2, name: 'Laneway Tote 19L', price: '$139', tag: '19L / A versatile, spacious everyday tote with surprising organization', colors: ['#4A3B32', '#2D3748', '#715364', '#C5A087'] },
+    { id: 3, name: 'Crossbody Strap', price: '$39', tag: 'A phone lanyard for crossbody carry', colors: ['#2D3748', '#274E3E', '#583133', '#C26D51', '#C5A087'] },
+    { id: 4, name: 'Wrist Strap', price: '$25', tag: 'A phone lanyard that tethers to your wrist', colors: ['#2D3748', '#274E3E', '#583133', '#C26D51', '#C5A087'] },
+    { id: 5, name: 'Phone Case', price: '$59', tag: 'Slim protection for your Apple iPhone', colors: ['#2D3748', '#274E3E', '#583133', '#C26D51'] },
+    { id: 6, name: 'Venture Phone Case', price: '$49', tag: 'Rugged protection for iPhone', colors: ['#1A202C', '#556B2F', '#C26D51'] },
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-white text-gray-900 font-sans">
       <Header />
 
-      <main className="max-w-7xl mx-auto px-6 md:px-16 py-12">
-        <div className="mb-10 pb-6 border-b flex justify-between items-center">
-          <div>
-            <span className="text-xs bg-pink-100 text-pink-600 font-bold px-3 py-1 rounded-full uppercase">Collection</span>
-            <h1 className="text-3xl font-extrabold mt-2 capitalize">{category ? category : 'Category'} Items</h1>
-            <p className="text-gray-500 mt-1">Browse our specialized products and sub-categories</p>
-          </div>
-        </div>
+      {/* Category Header */}
+      <div className="max-w-[1800px] mx-auto px-6 md:px-12 pt-12 pb-8 border-b border-gray-100">
+        <span className="text-[10px] uppercase font-bold tracking-widest text-[#D04A35] bg-red-50 px-2.5 py-1 rounded">Collection</span>
+        <h1 className="text-3xl md:text-5xl font-black tracking-tight mt-2 capitalize">
+          {category ? `${category} Items` : 'Men Items'}
+        </h1>
+        <p className="text-gray-500 text-sm mt-1">Browse our specialized products and sub-categories</p>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          
-          {/* Left Side Sub-Category Filter Sidebar */}
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 h-fit space-y-4">
-            <h3 className="font-bold text-lg text-gray-800 border-b pb-3">Sub-Categories</h3>
-            <ul className="space-y-2 text-sm">
-              {subCategories.map((sub, idx) => (
-                <li key={idx}>
+      <div className="max-w-[1800px] mx-auto px-6 md:px-12 py-12 grid grid-cols-1 md:grid-cols-5 gap-12">
+        
+        {/* Sidebar Sub-Categories */}
+        <div className="md:col-span-1 space-y-6">
+          <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-gray-400 mb-4">Sub-Categories</h3>
+            <ul className="space-y-2 text-sm font-semibold text-gray-700">
+              {['All', 'Gym Accessories', 'Kitchen Accessories', 'Electric Accessories'].map((sub) => (
+                <li key={sub}>
                   <button 
                     onClick={() => setSelectedSub(sub)}
-                    className={`w-full text-left px-4 py-2.5 rounded-xl font-semibold transition ${
-                      selectedSub === sub 
-                        ? 'bg-pink-50 text-pink-600' 
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    className={`w-full text-left px-3 py-2 rounded-xl transition ${
+                      selectedSub === sub ? 'bg-black text-white shadow-sm' : 'hover:bg-gray-200/60'
                     }`}
                   >
                     {sub}
@@ -46,32 +52,46 @@ export default function CategoryPage() {
               ))}
             </ul>
           </div>
-
-          {/* Right Side Filtered Products Grid */}
-          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((item) => (
-              <motion.div 
-                key={item}
-                whileHover={{ y: -5 }}
-                className="bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-full h-56 bg-gray-100 rounded-2xl mb-4 flex items-center justify-center text-gray-400 text-xs">
-                    {selectedSub} Item {item}
-                  </div>
-                  <span className="text-xs bg-gray-100 text-gray-600 font-medium px-2.5 py-1 rounded-md">{selectedSub === 'All' ? 'Trending' : selectedSub}</span>
-                  <h3 className="font-bold text-base text-gray-900 mt-2">Premium Quality Item</h3>
-                  <p className="text-pink-600 font-semibold mt-1">$39.99</p>
-                </div>
-                <a href="/product/1" className="mt-4 w-full bg-gray-900 text-white font-semibold py-2.5 rounded-xl text-center hover:bg-pink-600 transition block text-sm">
-                  View Details ⚡
-                </a>
-              </motion.div>
-            ))}
-          </div>
-
         </div>
-      </main>
+
+        {/* Product Grid - Exact Bellroy Minimalist Style */}
+        <div className="md:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+          {products.map((product) => (
+            <div key={product.id} className="group flex flex-col justify-between cursor-pointer">
+              
+              {/* Product Image Area - Clean Soft Background */}
+              <div className="w-full h-[380px] bg-[#F7F7F7] rounded-2xl flex items-center justify-center p-8 relative overflow-hidden mb-5 group-hover:bg-[#F2EEEC] transition duration-300">
+                <span className="text-xs text-gray-400 font-medium group-hover:scale-105 transition duration-500">
+                  [{product.name} Image]
+                </span>
+              </div>
+
+              {/* Product Details - Clean Typography */}
+              <div className="space-y-1.5 px-1">
+                <div className="flex justify-between items-start">
+                  <h3 className="font-bold text-base text-gray-900 group-hover:text-[#D04A35] transition">{product.name}</h3>
+                  <span className="font-bold text-base text-gray-900">{product.price}</span>
+                </div>
+
+                {/* Color Swatches */}
+                <div className="flex items-center space-x-2 pt-1">
+                  {product.colors.map((color, idx) => (
+                    <span 
+                      key={idx} 
+                      className="w-4 h-4 rounded-full border border-gray-300 shadow-sm"
+                      style={{ backgroundColor: color }}
+                    ></span>
+                  ))}
+                </div>
+
+                <p className="text-xs text-gray-500 pt-1 leading-relaxed">{product.tag}</p>
+              </div>
+
+            </div>
+          ))}
+        </div>
+
+      </div>
 
       <Footer />
     </div>

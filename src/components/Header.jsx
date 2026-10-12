@@ -7,7 +7,20 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 md:px-16 flex items-center justify-between h-20">
+      {/* Top Utility Bar */}
+      <div className="bg-gray-50 border-b border-gray-100 text-xs text-gray-600">
+        <div className="max-w-[1800px] mx-auto px-6 md:px-12 py-2 flex justify-end items-center space-x-6">
+          <a href="#shipping" className="flex items-center hover:text-black transition">
+            Worldwide shipping <span className="font-bold ml-1">BD</span>
+          </a>
+          <a href="#help" className="flex items-center hover:text-black transition gap-1.5">
+            Need help?
+          </a>
+        </div>
+      </div>
+
+      {/* Main Header Container - Full Wide Screen */}
+      <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex items-center justify-between h-20">
         
         {/* Logo */}
         <div className="flex items-center space-x-2">
@@ -20,7 +33,7 @@ export default function Header() {
         <nav className="hidden md:flex items-center space-x-8 font-medium text-gray-600">
           <a href="/" className="hover:text-pink-600 transition">Home</a>
           
-          {/* Mega Menu Trigger on Shop / Featured */}
+          {/* Mega Menu Trigger on Shop / Categories */}
           <div 
             className="relative h-full flex items-center cursor-pointer"
             onMouseEnter={() => setMegaMenuOpen(true)}
@@ -30,7 +43,7 @@ export default function Header() {
               <span>Shop & Categories ▾</span>
             </a>
 
-            {/* Mega Dropdown Box (Like Bellroy screenshot) */}
+            {/* Mega Dropdown Box */}
             <AnimatePresence>
               {megaMenuOpen && (
                 <motion.div 
@@ -88,7 +101,7 @@ export default function Header() {
 
         {/* Action Icons */}
         <div className="flex items-center space-x-5">
-          <a href="/user/wishlist" className="hidden sm:block text-gray-600 hover:text-pink-600 transition">
+          <a href="/user/wishlist" className="hidden sm:block text-gray-600 hover:text-pink-600 transition font-medium text-sm">
             ❤️ Wishlist
           </a>
           <a href="/cart" className="relative bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-pink-600 transition flex items-center space-x-2">

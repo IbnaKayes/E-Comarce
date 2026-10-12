@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useContext, useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { StoreContext } from '../utils/StoreContext';
@@ -9,6 +9,22 @@ export default function Home() {
   const visibleCategories = categories.filter(cat => cat.visible);
 
   const [activeTab, setActiveTab] = useState('Bestsellers');
+
+  // Hero Video Slider State (3 videos)
+  const heroVideos = [
+    '/images/hero-video-1.mp4',
+    '/images/hero-video-2.mp4',
+    '/images/hero-video-3.mp4'
+  ];
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
+  // Auto slide videos every 12 seconds so users can watch fully
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % heroVideos.length);
+    }, 12000);
+    return () => clearInterval(timer);
+  }, [heroVideos.length]);
 
   const tabProducts = {
     Bestsellers: [
@@ -41,11 +57,32 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Hero Banner Section */}
+      {/* Hero Banner Section with 3 Video Carousel */}
       <section className="relative w-full h-[600px] bg-black text-white flex items-center px-8 md:px-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent z-10"></div>
-        <div className="absolute inset-0 bg-gray-900 bg-cover bg-center opacity-50"></div>
+        
+        {/* Background Video with Smooth Crossfade */}
+        <AnimatePresence mode="wait">
+          <motion.video 
+            key={currentVideoIndex}
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.6 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5 }}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          >
+            <source src={heroVideos[currentVideoIndex]} type="video/mp4" />
+            Your browser does not support the video tag.
+          </motion.video>
+        </AnimatePresence>
 
+        {/* Dark Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent z-10"></div>
+
+        {/* Hero Content */}
         <div className="relative z-20 max-w-3xl space-y-6">
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
@@ -70,10 +107,17 @@ export default function Home() {
           </motion.div>
         </div>
 
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
-          <span className="w-2.5 h-2.5 bg-white/50 rounded-full cursor-pointer"></span>
-          <span className="w-2.5 h-2.5 bg-white/50 rounded-full cursor-pointer"></span>
-          <span className="w-2.5 h-2.5 bg-white rounded-full cursor-pointer"></span>
+        {/* Interactive Dots for 3 Videos */}
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
+          {heroVideos.map((_, index) => (
+            <span 
+              key={index} 
+              onClick={() => setCurrentVideoIndex(index)}
+              className={`h-2.5 rounded-full cursor-pointer transition-all duration-300 ${
+                currentVideoIndex === index ? 'w-8 bg-white' : 'w-2.5 bg-white/50'
+              }`}
+            ></span>
+          ))}
         </div>
       </section>
 
@@ -214,7 +258,7 @@ export default function Home() {
             </div>
 
             <motion.div whileHover={{ scale: 1.04 }} transition={{ duration: 0.4 }} className="col-span-1 md:col-span-1 h-96 bg-gray-300 rounded-2xl flex items-center justify-center text-xs text-gray-500 font-semibold shadow-sm overflow-hidden cursor-pointer">
-              <div className="w-full h-full hover:bg-gray-200 transition duration-300 flex items-center justify-center">[Bicycle Rider]</div>
+              <div className="w-full h-full bg-gray-300 hover:bg-gray-200 transition duration-300 flex items-center justify-center">[Bicycle Rider]</div>
             </motion.div>
           </div>
 
