@@ -1,6 +1,1 @@
-{
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js",
-  "/": "pages/index.js"
-}
+{"/_app":"pages/_app.js","/_error":"pages/_error.js","/about":"pages/about.html","/":"pages/index.html","/product/[id]":"pages/product/[id].html","/cart":"pages/cart.html","/contact":"pages/contact.html","/checkout":"pages/checkout.html","/live-sell":"pages/live-sell.html","/shop/[category]":"pages/shop/[category].html","/reviews":"pages/reviews.html","/shop":"pages/shop.html","/user/dashboard":"pages/user/dashboard.html","/user/wishlist":"pages/user/wishlist.html","/_document":"pages/_document.js","/404":"pages/404.html"}
